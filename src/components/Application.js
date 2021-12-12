@@ -6,7 +6,7 @@ import Appointment from "./Appointment";
 
 import axios from "axios";
 
-import {getAppointmentsForDay, getInterview} from "../helpers/selectors.js";
+import {getAppointmentsForDay, getInterview, getInterviewersForDay} from "../helpers/selectors.js";
 
 
 export default function Application(props) {
@@ -27,6 +27,7 @@ export default function Application(props) {
   const setDays = days => setState(prev => ({...prev, days }));
 
   const dailyAppointments = getAppointmentsForDay(state,state.day);
+  const dailyInterviewers = getInterviewersForDay(state,state.day)
 
   useEffect(()=> {
     Promise.all([
@@ -52,7 +53,8 @@ export default function Application(props) {
       key={appointment.id}
       id={appointment.id}
       time={appointment.time}
-      interview={interview} 
+      interview={interview}
+      interviewers= {dailyInterviewers} 
       />
     )
   })
