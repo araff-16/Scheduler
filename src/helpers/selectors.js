@@ -31,7 +31,28 @@ export function getInterview(state, interview) {
   } else{
     return null
   }
-
-
   
+}
+
+export function getInterviewersForDay(state, day) {
+
+  let interviewersArray = []
+
+  for(let dayObj of state.days) {
+    if (dayObj.name === day){
+      interviewersArray = [...dayObj.interviewers]
+      break;
+    }
+  }
+
+  let interviewersToReturn = []
+
+  for(let interviewerId of interviewersArray) {
+    //apptsToReturn.push({...state.appointments[apptId]})
+
+    interviewersToReturn = [...interviewersToReturn, {...state.interviewers[interviewerId]}]
+  }
+
+  return interviewersToReturn;
+
 }
