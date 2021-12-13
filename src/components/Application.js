@@ -43,7 +43,8 @@ export default function Application(props) {
     });
   } ,[])
 
-  async function bookInterview(id, interview) {
+  //USING PROMISES 
+  function bookInterview(id, interview) {
     const appointment = {
       ...state.appointments[id],
       interview: { ...interview }
@@ -53,11 +54,12 @@ export default function Application(props) {
       [id]: appointment
     };
 
-    await axios.put(`/api/appointments/${id}`, {interview})
-    setState({ ...state, appointments:appointments}) 
+    return axios.put(`/api/appointments/${id}`, {interview})
+    .then (() => setState({ ...state, appointments:appointments}))
+     
   }
     
-
+  //OR ASYNC AWAIT CAN BE USED
   async function cancelInterview(id){
     const updateAppointments = {...state}
 
