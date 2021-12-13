@@ -43,7 +43,7 @@ export default function Application(props) {
     });
   } ,[])
 
-  function bookInterview(id, interview) {
+  async function bookInterview(id, interview) {
     console.log(id, interview);
     const appointment = {
       ...state.appointments[id],
@@ -54,8 +54,12 @@ export default function Application(props) {
       [id]: appointment
     };
 
+    
+    await axios.put(`/api/appointments/${id}`, {interview})
     setState({ ...state, appointments:appointments})
+    
   }
+    
  
 
   const parsedAppointments = dailyAppointments.map((appointment) => {

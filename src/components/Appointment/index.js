@@ -22,13 +22,18 @@ export default function Appointment(props) {
       student: name,
       interviewer
     };
+    
+    
     props.bookInterview(props.id, interview)
-    transition(SHOW)
+    .then(() => transition(SHOW) )
 
+    
   }
 
+  console.log('TESTSTTSTST', props)
   return (
 
+  
     <article className="appointment">
       <Header time={props.time}></Header>
       {mode === EMPTY && <Empty onAdd={() => transition(CREATE)} />}
