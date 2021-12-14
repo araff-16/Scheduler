@@ -5,12 +5,13 @@ import "components/InterviewerList.scss";
 
 import PropTypes from 'prop-types'
 
-
+//Check to see if the interviewrs props is an array
+InterviewerList.propTypes = {
+  interviewers: PropTypes.array
+};
 
 export default function InterviewerList(props) {
 
-
-  
   const parsedInterviewers = props.interviewers.map(interviewer => <InterviewerListItem
     key={interviewer.id}
     name={interviewer.name} 
@@ -30,3 +31,4 @@ export default function InterviewerList(props) {
   );
 
 }
+
