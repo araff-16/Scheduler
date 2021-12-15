@@ -1,3 +1,5 @@
+const { CYCLIC_KEY } = require("@storybook/addon-actions/dist/constants");
+
 describe("Appointments", () => {
 
 
@@ -27,7 +29,7 @@ describe("Appointments", () => {
     cy.contains(".appointment__card--show", "Sylvia Palmer");
   });
 
-  it("should edit an interview", () => {
+  xit("should edit an interview", () => {
     
     cy.get(".appointment__card--show")
     //.trigger('mouseover')
@@ -46,6 +48,24 @@ describe("Appointments", () => {
 
     cy.contains(".appointment__card--show", "Bobby Brown");
     cy.contains(".appointment__card--show", "Tori Malcolm");
+
+  });
+
+  it("should cancel an interview", () => {
+    
+    cy.get(".appointment__card--show")
+    //.trigger('mouseover')
+    .find("[alt=Delete]")
+    .click({force: true})
+
+    cy.contains("Confirm")
+    .click();
+
+    cy.contains("Deleting")
+
+    cy.contains("Deleting").should('not.exist')
+
+    cy.contains(".appointment__card--show", "Archie Cohen").should('not.exist')
 
   });
 
