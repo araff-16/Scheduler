@@ -25,13 +25,13 @@ npm run storybook
 
 
 Homepage View
-['Homepage View'](docs/HomeScreen.png)
+!['Homepage View'](docs/HomeScreen.png)
 
 Edit/Delete Button Revealed On Appointment mouseover
-['MouseOver'](docs/MouseOver.png)
+!['MouseOver'](docs/MouseOver.png)
 
 Clicking Large + Button Brings up New Appontment Form
-['Homepage View'](docs/NewAppointment.png)
+!['Homepage View'](docs/NewAppointment.png)
 
 ## Dependencies
 
