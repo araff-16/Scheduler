@@ -1,4 +1,5 @@
 # Interview Scheduler
+Scheduler provides a simple single page UI for booking, editing and removing appointments.
 
 ## Setup
 
@@ -21,3 +22,25 @@ npm test
 ```sh
 npm run storybook
 ```
+
+
+Homepage View
+['Homepage View'](docs/HomeScreen.png)
+
+Edit/Delete Button Revealed On Appointment mouseover
+['MouseOver'](docs/MouseOver.png)
+
+Clicking Large + Button Brings up New Appontment Form
+['Homepage View'](docs/NewAppointment.png)
+
+## Dependencies
+
+- axios
+- classnames
+- normalize.css,
+- react
+- storybook
+- cypress
+- node-sass
+- prop-types
+
