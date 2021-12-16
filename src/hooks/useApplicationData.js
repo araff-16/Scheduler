@@ -22,41 +22,38 @@ export default function useApplicationData() {
       axios.get('/api/appointments'),
       axios.get('/api/interviewers')
     ]).then((all) => {
-      console.log('FIRST', all[0].data); // first
-      console.log('SECOND', all[1].data); // second
-      console.log('THIRD', all[2].data);
-
+      
       setState(prev => ({ ...prev, days: all[0].data, appointments: all[1].data, interviewers: all[2].data }));
     });
   }, [])
 
 
-  function updateSpots(id, condition) {
-    const existingState = { ...state }
 
+  function newUpdateSpots(id, passedappointments){
+    //finds the specific day object that includes the appointmnet id
+  const dayObjectFromListOfDays = state.days.find((day) => day.appointments.includes(id))
+  
+  //Indexof the day object will be its id subtract 1
+  const indexOfFoundDay = dayObjectFromListOfDays.id-1
 
-    const daySpotsChange = existingState.days.find((day) => day.appointments.includes(id))
+  //list of appointments inside the day object
+  const listOfAppointments = dayObjectFromListOfDays.appointments
 
-    const daySpotsIndex = existingState.days.findIndex((day) => day.id === daySpotsChange.id)
+  //Gathers list of appoinments that are null
+  const listOfEmptyAppointments = listOfAppointments.filter((appId) => !passedappointments[appId].interview)
 
-    console.log("daySpotsChange", daySpotsChange)
+  const newSpots = listOfEmptyAppointments.length
 
-    console.log("daySpotsIndex", daySpotsIndex)
+  //We need to create a new day object that will not change the orinal
+  const updatedDay = {...state.days[indexOfFoundDay], spots:newSpots}
 
+  //We need to create a new list of day objects that will not change the original
+  const updatedDays = [...state.days]
+  updatedDays[indexOfFoundDay] = updatedDay
 
-    if (condition === "ADD") {
-      existingState.days[daySpotsIndex].spots ++
-    }else {
-      existingState.days[daySpotsIndex].spots --
-    }
-    console.log ("existingState", existingState)
-
-
-    setState(prev => ({ ...prev, ...existingState}));
+  return updatedDays
 
   }
-  //updateSpots()
-
 
   //USING PROMISES 
   function bookInterview(id, interview) {
@@ -69,27 +66,29 @@ export default function useApplicationData() {
       [id]: appointment
     };
 
+    const daysWithSpotsUpdate = newUpdateSpots(id, appointments)
     return axios.put(`/api/appointments/${id}`, { interview })
     .then(() => {
       // setState({ ...state, appointments: appointments })
-      updateSpots(id, "REMOVE")
-      setState(prev => ({ ...prev, appointments: appointments }))
+      //updateSpots(id, "REMOVE")
+      setState(prev => ({ ...prev, appointments: appointments, days:daysWithSpotsUpdate}))
       
     })
 
   }
 
-  //OR ASYNC AWAIT CAN BE USED
-  //
   function cancelInterview(id) {
-    const updateAppointments = { ...state }
+    const newappt = { ...state.appointments[id] }
 
-    updateAppointments.appointments[id].interview = null;
-
+    newappt.interview = null;
+  
+    const newappts = {...state.appointments, [id]:newappt}
+    
+    const daysWithSpotsUpdate =newUpdateSpots(id, newappts)
     return axios.delete(`/api/appointments/${id}`)
     .then(() => {
-      setState(updateAppointments)
-      updateSpots(id, "ADD")
+      setState(prev => ({...prev, appointments:{...prev.appointments, [id]:newappt}, days:daysWithSpotsUpdate }))
+      //updateSpots(id, "ADD")
     })
   }
 
